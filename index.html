@@ -152,6 +152,21 @@
     .card p { margin: 0; color: var(--muted); line-height: 1.7; }
     .price-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 2px; }
     .price { color: var(--green); font-weight: 950; font-size: 18px; white-space: nowrap; }
+    .empty-state {
+      grid-column: 1 / -1;
+      min-height: 180px;
+      display: grid;
+      place-items: center;
+      gap: 8px;
+      text-align: center;
+      padding: 36px 18px;
+      border: 1px dashed #c8cfdd;
+      border-radius: 8px;
+      background: #fff;
+      color: var(--muted);
+    }
+    .empty-state strong { color: var(--navy); font-size: 20px; }
+    .empty-state span { line-height: 1.7; }
     .info-band {
       background: #fff;
       border-top: 1px solid var(--line);
@@ -362,43 +377,11 @@
         </div>
       </div>
 
-      <div class="tour-grid">
-        <article class="card">
-          <div class="tour-photo" style="background-image:url('https://images.unsplash.com/photo-1579015108687-0b1e90e807b4?auto=format&fit=crop&w=1200&q=80')"></div>
-          <div class="card-body">
-            <div class="tags"><span class="tag">東北</span><span class="tag">5天4夜</span><span class="tag">秋季紅葉</span></div>
-            <h3>東北紅葉秘境五日</h3>
-            <p>奧入瀨溪流、十和田湖、藏王與銀山溫泉，適合初次前往東北的旅客。</p>
-            <div class="price-row">
-              <span class="price">每人 TWD 42,800 起</span>
-              <button class="btn primary" type="button" onclick="openTour('tohoku-autumn')">看行程</button>
-            </div>
-          </div>
-        </article>
-        <article class="card">
-          <div class="tour-photo" style="background-image:url('https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=1200&q=80')"></div>
-          <div class="card-body">
-            <div class="tags"><span class="tag">東北</span><span class="tag">4天3夜</span><span class="tag">雪景包車</span></div>
-            <h3>藏王樹冰與銀山溫泉四日</h3>
-            <p>冬季限定雪景路線，安排專車移動，減少雪地交通轉乘壓力。</p>
-            <div class="price-row">
-              <span class="price">每人 TWD 36,500 起</span>
-              <button class="btn primary" type="button" onclick="openTour('zao-snow')">看行程</button>
-            </div>
-          </div>
-        </article>
-        <article class="card">
-          <div class="tour-photo" style="background-image:url('https://images.unsplash.com/photo-1554797589-7241bb691973?auto=format&fit=crop&w=1200&q=80')"></div>
-          <div class="card-body">
-            <div class="tags"><span class="tag">東京</span><span class="tag">1日</span><span class="tag">MINI TOUR</span></div>
-            <h3>東京近郊包車一日遊</h3>
-            <p>可安排富士山、日光、鎌倉、輕井澤等方向，適合自由行加購。</p>
-            <div class="price-row">
-              <span class="price">一車 JPY 68,000 起</span>
-              <button class="btn primary" type="button" onclick="openTour('tokyo-mini')">看行程</button>
-            </div>
-          </div>
-        </article>
+      <div class="tour-grid" id="tourGrid">
+        <div class="empty-state">
+          <strong>目前尚無上架行程</strong>
+          <span>行程確認後會由後台上架，並自動顯示在這裡。</span>
+        </div>
       </div>
     </section>
 
@@ -468,133 +451,7 @@
   </footer>
 
   <script>
-    const tours = {
-      "tohoku-autumn": {
-        title: "東北紅葉秘境五日",
-        subtitle: "奧入瀨溪流、十和田湖、藏王溫泉",
-        hero: "https://images.unsplash.com/photo-1579015108687-0b1e90e807b4?auto=format&fit=crop&w=1600&q=80",
-        info: [
-          ["地區", "東北"],
-          ["天數", "5天4夜"],
-          ["出發日期", "可洽詢"],
-          ["價格", "每人 TWD 42,800 起"]
-        ],
-        days: [
-          {
-            title: "東京集合",
-            images: [
-              "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?auto=format&fit=crop&w=900&q=80",
-              "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=900&q=80",
-              "https://images.unsplash.com/photo-1554797589-7241bb691973?auto=format&fit=crop&w=900&q=80"
-            ],
-            detail: "抵達後專車接送，依班機安排東京市區或近郊。實際停留點會依抵達時間與交通狀況調整。",
-            meals: ["早餐：敬請自理", "午餐：依班機時間安排", "晚餐：方便逛街，敬請自理"],
-            lodging: "住宿：東京市區飯店"
-          },
-          {
-            title: "奧入瀨溪流・十和田湖",
-            images: [
-              "https://images.unsplash.com/photo-1579015108687-0b1e90e807b4?auto=format&fit=crop&w=900&q=80",
-              "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
-              "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80"
-            ],
-            detail: "安排紅葉步道、溪流景觀與湖畔住宿。可依季節狀況調整散策時間。",
-            meals: ["早餐：飯店內", "午餐：當地餐廳", "晚餐：飯店內"],
-            lodging: "住宿：十和田湖周邊飯店"
-          },
-          {
-            title: "藏王溫泉",
-            images: [
-              "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=900&q=80",
-              "https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=900&q=80",
-              "https://images.unsplash.com/photo-1480796927426-f609979314bd?auto=format&fit=crop&w=900&q=80"
-            ],
-            detail: "季節景觀、溫泉住宿與在地餐食。冬季或山區路線需依道路狀況安排。",
-            meals: ["早餐：飯店內", "午餐：途中安排", "晚餐：飯店內"],
-            lodging: "住宿：藏王溫泉飯店"
-          },
-          {
-            title: "銀山溫泉・山形散策",
-            images: [],
-            detail: "安排溫泉街散策與山形周邊景點，實際路線依住宿位置與當日交通調整。",
-            meals: ["早餐：飯店內", "午餐：當地餐廳", "晚餐：依行程安排"],
-            lodging: "住宿：山形或仙台周邊飯店"
-          },
-          {
-            title: "東京或機場送機",
-            images: [],
-            detail: "依回程班機時間安排市區停留或機場送機。",
-            meals: ["早餐：飯店內", "午餐：依班機時間安排", "晚餐：敬請自理"],
-            lodging: "住宿：溫暖的家"
-          }
-        ]
-      },
-      "zao-snow": {
-        title: "藏王樹冰與銀山溫泉四日",
-        subtitle: "冬季限定雪景路線，專車移動減少轉乘壓力",
-        hero: "https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=1600&q=80",
-        info: [
-          ["地區", "東北"],
-          ["天數", "4天3夜"],
-          ["出發日期", "可洽詢"],
-          ["價格", "每人 TWD 36,500 起"]
-        ],
-        days: [
-          {
-            title: "仙台或東京集合",
-            images: ["https://images.unsplash.com/photo-1480796927426-f609979314bd?auto=format&fit=crop&w=900&q=80"],
-            detail: "依航班或集合地點安排專車接送，前往東北雪景路線。",
-            meals: ["早餐：敬請自理", "午餐：依時間安排", "晚餐：飯店內"],
-            lodging: "住宿：藏王溫泉周邊飯店"
-          },
-          {
-            title: "藏王樹冰觀賞",
-            images: ["https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=900&q=80"],
-            detail: "安排藏王纜車與樹冰觀賞。纜車運行與能見度會受天候影響。",
-            meals: ["早餐：飯店內", "午餐：景區周邊", "晚餐：飯店內"],
-            lodging: "住宿：藏王溫泉周邊飯店"
-          },
-          {
-            title: "銀山溫泉散策",
-            images: ["https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=900&q=80"],
-            detail: "前往銀山溫泉街散策，感受冬季溫泉街氛圍。",
-            meals: ["早餐：飯店內", "午餐：當地餐廳", "晚餐：依行程安排"],
-            lodging: "住宿：仙台或山形周邊飯店"
-          },
-          {
-            title: "機場送機",
-            images: [],
-            detail: "依班機時間安排送機，若時間許可可加排市區短暫停留。",
-            meals: ["早餐：飯店內", "午餐：依班機時間安排", "晚餐：敬請自理"],
-            lodging: "住宿：溫暖的家"
-          }
-        ]
-      },
-      "tokyo-mini": {
-        title: "東京近郊包車一日遊",
-        subtitle: "富士山、日光、鎌倉、輕井澤等方向可依需求安排",
-        hero: "https://images.unsplash.com/photo-1554797589-7241bb691973?auto=format&fit=crop&w=1600&q=80",
-        info: [
-          ["地區", "東京・關東近郊"],
-          ["天數", "1日"],
-          ["出發日期", "可洽詢"],
-          ["價格", "一車 JPY 68,000 起"]
-        ],
-        days: [
-          {
-            title: "東京近郊包車一日遊",
-            images: [
-              "https://images.unsplash.com/photo-1554797589-7241bb691973?auto=format&fit=crop&w=900&q=80",
-              "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
-              "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?auto=format&fit=crop&w=900&q=80"
-            ],
-            detail: "可安排富士山、日光、鎌倉、輕井澤等方向，實際路線會依出發地、季節、交通與停留時間調整。",
-            meals: ["早餐：敬請自理", "午餐：依路線安排", "晚餐：敬請自理"],
-            lodging: "住宿：無住宿安排"
-          }
-        ]
-      }
-    };
+    const tours = {};
     const defaultNotice = [
       "注意事項",
       "・冬季景點會受天候、道路、纜車運行狀況影響；正式內容以實際確認後安排為準。",
@@ -605,9 +462,10 @@
     ].join("\n");
     let currentTourId = "";
 
-    function openTour(tourId = "tohoku-autumn") {
-      const tour = tours[tourId] || tours["tohoku-autumn"];
-      currentTourId = tours[tourId] ? tourId : "tohoku-autumn";
+    function openTour(tourId) {
+      const tour = tours[tourId];
+      if (!tour) return;
+      currentTourId = tourId;
       document.getElementById("modalTitle").textContent = tour.title;
       document.getElementById("modalSubtitle").textContent = tour.subtitle;
       document.getElementById("modalPhoto").style.cssText = imageStyle(tour.hero);
@@ -699,4 +557,6 @@
   </script>
 </body>
 </html>
+
+
 
