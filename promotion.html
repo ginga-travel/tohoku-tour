@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>旅遊推廣｜銀河國際日本地接社</title>
+  <style>
+    :root {
+      --navy: #172452;
+      --gold: #9a8f2e;
+      --ink: #1d2433;
+      --muted: #687083;
+      --line: #dfe4ee;
+      --soft: #f6f7fb;
+      --mist: #eef2f8;
+      --paper: #fff;
+      --font-heading: "Microsoft JhengHei", "Noto Sans TC", system-ui, sans-serif;
+      --font-body: "Microsoft JhengHei", "Noto Sans TC", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background: var(--soft);
+      letter-spacing: 0;
+    }
+    button { font: inherit; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+    .nav {
+      max-width: 1160px;
+      margin: 0 auto;
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 10px 22px;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .brand img { width: 116px; height: auto; display: block; }
+    .brand-text strong { display: block; font-family: var(--font-heading); font-size: 18px; color: var(--navy); font-weight: 700; }
+    .brand-text span { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .nav-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .btn {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      min-height: 40px;
+      padding: 9px 14px;
+      cursor: pointer;
+      background: #fff;
+      color: var(--navy);
+      font-weight: 850;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+    .btn.primary { background: var(--gold); border-color: var(--gold); color: #fff; }
+    .hero {
+      background:
+        linear-gradient(90deg, rgba(23,36,82,.9), rgba(23,36,82,.64)),
+        url("https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1800&q=80") center/cover;
+      color: #fff;
+    }
+    .hero-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      min-height: 360px;
+      display: grid;
+      align-content: center;
+      gap: 16px;
+      padding: 58px 22px 68px;
+    }
+    .eyebrow { margin: 0; color: #c4b865; font-weight: 900; }
+    h1 {
+      margin: 0;
+      max-width: 780px;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+    .lead {
+      margin: 0;
+      max-width: 720px;
+      color: rgba(255,255,255,.88);
+      line-height: 1.8;
+      font-size: 18px;
+    }
+    .section { max-width: 1160px; margin: 0 auto; padding: 44px 22px; }
+    .section-head { margin-bottom: 18px; }
+    .section-head h2 { margin: 0; color: var(--navy); font-family: var(--font-heading); font-size: 28px; font-weight: 700; }
+    .section-head p { margin: 8px 0 0; color: var(--muted); line-height: 1.7; }
+    .promo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .promo-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+      box-shadow: 0 12px 28px rgba(23,36,82,.06);
+    }
+    .tag {
+      display: inline-flex;
+      width: fit-content;
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: var(--mist);
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .promo-card h3 {
+      margin: 0;
+      color: var(--navy);
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+    .promo-card p { margin: 0; color: var(--muted); line-height: 1.7; }
+    .promo-card a {
+      color: var(--gold);
+      font-weight: 950;
+      text-decoration: none;
+      width: fit-content;
+    }
+    footer { background: var(--navy); color: rgba(255,255,255,.78); }
+    .foot { max-width: 1160px; margin: 0 auto; padding: 28px 22px; display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+    .foot strong { color: #fff; }
+    @media (max-width: 880px) {
+      .promo-grid { grid-template-columns: 1fr; }
+      .nav { align-items: stretch; flex-direction: column; }
+      .brand img { width: 96px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="nav">
+      <div class="brand">
+        <a href="index.html" aria-label="回首頁"><img src="ginga-logo-upscaled.png" alt="GINGA INTERNATIONAL TRAVEL"></a>
+        <div class="brand-text">
+          <strong>銀河國際日本地接社</strong>
+          <span>東京＆東北包車旅遊專屬</span>
+        </div>
+      </div>
+      <nav class="nav-actions">
+        <a class="btn" href="index.html#tours">行程一覽</a>
+        <a class="btn" href="promotion.html">旅遊推廣</a>
+        <a class="btn" href="https://www.gingaininternational.jp/hotel/index.html" target="_blank" rel="noopener">朝陽飯店</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <p class="eyebrow">MEDIA & BLOGGER FEATURES</p>
+        <h1>旅遊推廣</h1>
+        <p class="lead">網美、部落客與媒體實際走訪朝陽飯店與日本東北後的旅遊分享。透過圖文與報導，認識八幡平溫泉、東北四季景色與銀河國際的在地推廣。</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>朝陽飯店旅遊分享</h2>
+        <p>以住宿體驗、溫泉、美食與八幡平周邊景點為主的部落客文章。</p>
+      </div>
+      <div class="promo-grid">
+        <article class="promo-card">
+          <span class="tag">朝陽飯店旅遊分享</span>
+          <h3>八幡平朝陽飯店，三天兩夜的溫泉美食輕旅行</h3>
+          <p>介紹八幡平所在位置、冬季滑雪與初春雪之迴廊等特色，適合想認識岩手八幡平的旅客。</p>
+          <a href="https://natasha-traveler.tw/hachimantai-rising-sun-hote/" target="_blank" rel="noopener">閱讀分享</a>
+        </article>
+        <article class="promo-card">
+          <span class="tag">朝陽飯店旅遊分享</span>
+          <h3>[岩手住宿] 八幡平朝陽飯店 一泊二食</h3>
+          <p>以住宿體驗介紹溫泉飯店、晚餐飲品、房型與八幡平周邊旅行感受。</p>
+          <a href="https://www.sakehero.com/risingsun-hotel/" target="_blank" rel="noopener">閱讀分享</a>
+        </article>
+        <article class="promo-card">
+          <span class="tag">朝陽飯店旅遊分享</span>
+          <h3>八幡平朝陽飯店@高海拔溫泉鄉</h3>
+          <p>從高原溫泉鄉、寧靜環境與湯療感受切入，呈現八幡平慢旅行的魅力。</p>
+          <a href="https://amigo0728.pixnet.net/blog/post/71028403" target="_blank" rel="noopener">閱讀分享</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>日本東北旅行分享</h2>
+        <p>媒體報導、節目內容與東北觀光推廣紀錄。</p>
+      </div>
+      <div class="promo-grid">
+        <article class="promo-card">
+          <span class="tag">日本東北旅行分享</span>
+          <h3>銀河國際率東北業者推自由行</h3>
+          <p>日本東北飯店與觀光業者來台推廣，銀河國際社長村山正弘帶領介紹東北觀光。</p>
+          <a href="https://b2b.travelrich.tw/newweb/news_into.aspx?Second_classification_id=35&Subject_id=12132" target="_blank" rel="noopener">閱讀報導</a>
+        </article>
+        <article class="promo-card">
+          <span class="tag">日本東北旅行分享</span>
+          <h3>[暢遊東北] 八幡平朝陽飯店 花園式溫泉</h3>
+          <p>分享八幡平朝陽飯店的花園式溫泉、寬敞大廳與餐飲特色，呈現東北住宿體驗。</p>
+          <a href="https://wendellyu.com/blog/article/2825" target="_blank" rel="noopener">閱讀分享</a>
+        </article>
+        <article class="promo-card">
+          <span class="tag">日本東北旅行分享</span>
+          <h3>全日空帶領業者前進日本東北實地考察</h3>
+          <p>台灣業者走訪秋田、岩手、宮城與山形等地，適合作為東北旅遊推廣參考。</p>
+          <a href="https://b2b.travelrich.tw/" target="_blank" rel="noopener">閱讀報導</a>
+        </article>
+        <article class="promo-card">
+          <span class="tag">朝陽飯店旅遊分享</span>
+          <h3>八幡平朝陽飯店：四季皆宜的八幡平溫泉鄉</h3>
+          <p>介紹八幡平溫泉鄉春櫻、夏季踏青、秋楓與冬季滑雪等四季特色。</p>
+          <a href="https://www.ttnmedia.com/" target="_blank" rel="noopener">閱讀介紹</a>
+        </article>
+        <article class="promo-card">
+          <span class="tag">媒體節目</span>
+          <h3>節目《魚肉鄉民》仙台、岩手二日遊</h3>
+          <p>從仙台一路玩到岩手盛岡，透過節目內容帶出東北短天數旅行亮點。</p>
+          <a href="https://supertaste.tvbs.com.tw/" target="_blank" rel="noopener">查看內容</a>
+        </article>
+        <article class="promo-card">
+          <span class="tag">朝陽飯店旅遊分享</span>
+          <h3>岩手八幡平朝陽溫泉飯店住宿分享</h3>
+          <p>分享一泊二食、晚間飲品與飯店大廳氛圍，適合想了解住宿細節的旅客。</p>
+          <a href="https://www.ekegogo.com/" target="_blank" rel="noopener">閱讀分享</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="foot">
+      <div><strong>銀河國際日本地接社</strong><br>株式会社銀河インターナショナル</div>
+      <div>日本專線 03-6278-9817｜台灣專線 02-2541-1115｜risingsun.ginga@gmail.com</div>
+    </div>
+  </footer>
+</body>
+</html>
+

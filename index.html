@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>銀河國際日本地接社｜東京＆東北包車旅遊</title>
+  <style>
+    :root {
+      --navy: #172452;
+      --navy-2: #24386f;
+      --gold: #9a8f2e;
+      --gold-2: #c4b865;
+      --ink: #1d2433;
+      --muted: #687083;
+      --line: #dfe4ee;
+      --paper: #ffffff;
+      --soft: #f6f7fb;
+      --mist: #eef2f8;
+      --green: #496b5b;
+      --font-heading: "Microsoft JhengHei", "Noto Sans TC", system-ui, sans-serif;
+      --font-body: "Microsoft JhengHei", "Noto Sans TC", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background: var(--soft);
+      letter-spacing: 0;
+    }
+    img { max-width: 100%; display: block; }
+    button, input, textarea, select { font: inherit; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+    .nav {
+      max-width: 1160px;
+      margin: 0 auto;
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 10px 22px;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .brand img { width: 116px; height: auto; }
+    .brand-text strong { display: block; font-family: var(--font-heading); font-size: 18px; color: var(--navy); font-weight: 700; }
+    .brand-text span { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .nav-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .btn {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      min-height: 40px;
+      padding: 9px 14px;
+      cursor: pointer;
+      background: #fff;
+      color: var(--navy);
+      font-weight: 800;
+    }
+    .btn.primary { background: var(--gold); border-color: var(--gold); color: #fff; }
+    .btn.navy { background: var(--navy); border-color: var(--navy); color: #fff; }
+    .btn.light { background: #fff; border-color: rgba(255,255,255,.34); color: var(--navy); }
+    .hero {
+      background:
+        linear-gradient(90deg, rgba(23,36,82,.88), rgba(23,36,82,.62)),
+        url("https://images.unsplash.com/photo-1617104678098-de229db51175?auto=format&fit=crop&w=1800&q=80") center/cover;
+      color: #fff;
+    }
+    .hero-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      min-height: 520px;
+      display: grid;
+      align-content: center;
+      gap: 22px;
+      padding: 64px 22px 78px;
+    }
+    .eyebrow {
+      margin: 0;
+      color: var(--gold-2);
+      font-weight: 900;
+      font-size: 15px;
+    }
+    h1 {
+      margin: 0;
+      max-width: 780px;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+    .lead {
+      margin: 0;
+      max-width: 680px;
+      color: rgba(255,255,255,.88);
+      font-size: 18px;
+      line-height: 1.8;
+    }
+    .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+    .section { max-width: 1160px; margin: 0 auto; padding: 44px 22px; }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .section-head h2 { margin: 0; color: var(--navy); font-family: var(--font-heading); font-size: 28px; font-weight: 700; }
+    .section-head p { margin: 8px 0 0; color: var(--muted); }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--navy);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .chip.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .tour-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 16px 34px rgba(23,36,82,.08);
+      min-width: 0;
+    }
+    .tour-photo { aspect-ratio: 21 / 8; background-size: cover; background-position: center; }
+    .card-body { padding: 16px; display: grid; gap: 10px; }
+    .tags { display: flex; gap: 7px; flex-wrap: wrap; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--mist);
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .card h3 { margin: 0; color: var(--navy); font-family: var(--font-heading); font-size: 20px; font-weight: 700; line-height: 1.35; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.7; }
+    .price-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 2px; }
+    .price { color: var(--green); font-weight: 950; font-size: 18px; white-space: nowrap; }
+    .info-band {
+      background: #fff;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .info-grid {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 28px 22px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .info-item {
+      border-left: 3px solid var(--gold);
+      padding: 6px 0 6px 14px;
+    }
+    .info-item strong { display: block; color: var(--navy); }
+    .info-item span { display: block; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      background: rgba(17,24,39,.6);
+      z-index: 60;
+      padding: 26px;
+      overflow: auto;
+    }
+    .modal.open { display: block; }
+    .dialog {
+      max-width: 980px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,.28);
+    }
+    .dialog-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 20px;
+      background: var(--navy);
+      color: #fff;
+    }
+    .dialog-head h2 { margin: 0; font-family: var(--font-heading); font-size: 24px; font-weight: 700; }
+    .dialog-title { min-width: 0; display: grid; gap: 4px; }
+    .dialog-title p { margin: 0; color: rgba(255,255,255,.78); line-height: 1.5; }
+    .dialog-tools { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .dialog-body { padding: 20px; display: grid; gap: 18px; }
+    .hero-photo { aspect-ratio: 21 / 8; border-radius: 8px; background-size: cover; background-position: center; }
+    .print-image { display: none; }
+    .day-list { display: grid; gap: 18px; }
+    .day {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .day-head {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    .day-number { color: var(--gold); font-weight: 950; }
+    .day-title { margin: 0; color: var(--navy); font-size: 18px; line-height: 1.45; }
+    .day-collage { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 16px 0; }
+    .day-photo { aspect-ratio: 4 / 3; border-radius: 8px; background-size: cover; background-position: center; border: 1px solid var(--line); overflow: hidden; }
+    .day-body { padding: 12px 16px 16px; display: grid; gap: 10px; }
+    .meal-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .meal-chip { border: 1px solid var(--line); border-radius: 7px; background: var(--soft); padding: 9px 10px; color: var(--navy); font-weight: 800; line-height: 1.55; }
+    .meal-chip.lodging { grid-column: 1 / -1; }
+    .day-detail { color: var(--muted); line-height: 1.75; white-space: pre-wrap; }
+    .notice {
+      border: 1px solid #e4dcad;
+      background: #f8f6eb;
+      border-radius: 8px;
+      padding: 15px 16px;
+      color: #565021;
+      line-height: 1.75;
+      white-space: pre-wrap;
+    }
+    .notice h3 { margin: 0 0 8px; color: var(--navy); font-family: var(--font-heading); font-size: 20px; }
+    .form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 16px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .contact-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+    }
+    .contact-card h3 { margin: 0; color: var(--navy); font-family: var(--font-heading); font-size: 20px; font-weight: 700; }
+    .contact-card p { margin: 0; color: var(--muted); line-height: 1.7; }
+    .contact-card strong { color: var(--ink); }
+    label { display: grid; gap: 6px; color: var(--navy); font-weight: 900; font-size: 14px; }
+    input, textarea, select {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 10px 12px;
+      background: #fff;
+      color: var(--ink);
+      min-width: 0;
+    }
+    textarea, .full { grid-column: 1 / -1; }
+    footer { background: var(--navy); color: rgba(255,255,255,.78); }
+    .foot { max-width: 1160px; margin: 0 auto; padding: 28px 22px; display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+    .foot strong { color: #fff; }
+    @media (max-width: 880px) {
+      .tour-grid, .info-grid, .day-collage, .contact-grid, .meal-grid { grid-template-columns: 1fr; }
+      .section-head, .nav, .price-row { align-items: stretch; flex-direction: column; }
+      .brand img { width: 96px; }
+      .form { grid-template-columns: 1fr; }
+      .modal { padding: 12px; }
+      .dialog-head { align-items: stretch; flex-direction: column; }
+      .dialog-tools { justify-content: flex-start; }
+    }
+    @page { size: A4; margin: 9mm; }
+    @media print {
+      body { background: #fff; font-size: 15px; }
+      .topbar, main, footer, .form, .dialog-tools { display: none !important; }
+      .modal.open { position: static; display: block; background: #fff; padding: 0; overflow: visible; }
+      .dialog { max-width: none; margin: 0; border-radius: 0; box-shadow: none; }
+      .dialog-head { background: #fff; color: var(--ink); padding: 0 0 12px; border-bottom: 0; }
+      .dialog-title p { color: var(--muted); }
+      .dialog-body { padding: 0; display: block; }
+      .hero-photo, .day-photo { background-image: none !important; overflow: hidden; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .print-image { display: block; width: 100%; height: 100%; object-fit: cover; }
+      .hero-photo .print-image { aspect-ratio: 21 / 8; }
+      .day-photo .print-image { aspect-ratio: 4 / 3; }
+      .info-grid { grid-template-columns: repeat(4, 1fr) !important; padding: 0; margin: 12px 0; }
+      .day { break-inside: auto; page-break-inside: auto; margin-bottom: 12px; }
+      .day-head { break-after: avoid; page-break-after: avoid; }
+      .day-collage { break-inside: avoid; page-break-inside: avoid; grid-template-columns: repeat(3, 1fr) !important; }
+      .meal-grid { grid-template-columns: repeat(2, 1fr) !important; }
+      .meal-chip.lodging { grid-column: 1 / -1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="nav">
+      <div class="brand">
+        <img src="ginga-logo-upscaled.png" alt="GINGA INTERNATIONAL TRAVEL">
+        <div class="brand-text">
+          <strong>銀河國際日本地接社</strong>
+          <span>東京＆東北包車旅遊專屬</span>
+        </div>
+      </div>
+      <nav class="nav-actions">
+        <button class="btn" type="button" onclick="document.getElementById('tours').scrollIntoView({ behavior: 'smooth' })">行程一覽</button>
+        <button class="btn" type="button" onclick="location.href='promotion.html'">旅遊推廣</button>
+        <button class="btn" type="button" onclick="window.open('https://www.gingaininternational.jp/hotel/index.html', '_blank', 'noopener')">朝陽飯店</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <p class="eyebrow">GINGA INTERNATIONAL TRAVEL</p>
+        <h1>東京與東北包車旅遊<br>交給熟悉日本現地的地接社</h1>
+        <p class="lead">精選祭典、紅葉、雪景與 MINI TOUR 行程<br>可依人數、車型與出發日期彈性安排<br>散客可直接詢問，同業也能快速確認行程方向</p>
+        <div class="hero-buttons">
+          <button class="btn primary" type="button" onclick="document.getElementById('tours').scrollIntoView({ behavior: 'smooth' })">查看精選行程</button>
+          <button class="btn navy" type="button">客製包車詢問</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="info-band" aria-label="服務特色">
+      <div class="info-grid">
+        <div class="info-item"><strong>主打地區</strong><span>東京、東北、關東近郊包車</span></div>
+        <div class="info-item"><strong>適合客群</strong><span>家庭、好友、小團體與同業詢問</span></div>
+        <div class="info-item"><strong>安排方式</strong><span>MINI TOUR、季節行程、客製包車</span></div>
+        <div class="info-item"><strong>詢問流程</strong><span>填表後由專人回覆日期與報價</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="tours">
+      <div class="section-head">
+        <div>
+          <h2>精選旅遊行程</h2>
+          <p>依季節與主題快速找到適合的日本行程。</p>
+        </div>
+        <div class="filters">
+          <span class="chip active">全部</span>
+          <span class="chip">東北祭典</span>
+          <span class="chip">冬季雪景</span>
+          <span class="chip">秋季紅葉</span>
+          <span class="chip">包車客製</span>
+        </div>
+      </div>
+
+      <div class="tour-grid">
+        <article class="card">
+          <div class="tour-photo" style="background-image:url('https://images.unsplash.com/photo-1579015108687-0b1e90e807b4?auto=format&fit=crop&w=1200&q=80')"></div>
+          <div class="card-body">
+            <div class="tags"><span class="tag">東北</span><span class="tag">5天4夜</span><span class="tag">秋季紅葉</span></div>
+            <h3>東北紅葉秘境五日</h3>
+            <p>奧入瀨溪流、十和田湖、藏王與銀山溫泉，適合初次前往東北的旅客。</p>
+            <div class="price-row">
+              <span class="price">每人 TWD 42,800 起</span>
+              <button class="btn primary" type="button" onclick="openTour('tohoku-autumn')">看行程</button>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="tour-photo" style="background-image:url('https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=1200&q=80')"></div>
+          <div class="card-body">
+            <div class="tags"><span class="tag">東北</span><span class="tag">4天3夜</span><span class="tag">雪景包車</span></div>
+            <h3>藏王樹冰與銀山溫泉四日</h3>
+            <p>冬季限定雪景路線，安排專車移動，減少雪地交通轉乘壓力。</p>
+            <div class="price-row">
+              <span class="price">每人 TWD 36,500 起</span>
+              <button class="btn primary" type="button" onclick="openTour('zao-snow')">看行程</button>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="tour-photo" style="background-image:url('https://images.unsplash.com/photo-1554797589-7241bb691973?auto=format&fit=crop&w=1200&q=80')"></div>
+          <div class="card-body">
+            <div class="tags"><span class="tag">東京</span><span class="tag">1日</span><span class="tag">MINI TOUR</span></div>
+            <h3>東京近郊包車一日遊</h3>
+            <p>可安排富士山、日光、鎌倉、輕井澤等方向，適合自由行加購。</p>
+            <div class="price-row">
+              <span class="price">一車 JPY 68,000 起</span>
+              <button class="btn primary" type="button" onclick="openTour('tokyo-mini')">看行程</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>聯絡方式</h2>
+          <p>日本現地與台北窗口皆可協助確認行程、車輛與報價。</p>
+        </div>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h3>株式会社銀河インターナショナル</h3>
+          <p><strong>日本辦公室</strong><br>東京都新宿区大久保2-6-17　シルバープラザ新宿2　901号室</p>
+          <p><strong>日本專線</strong> 03-6278-9817</p>
+          <p><strong>日本傳真</strong> 03-6278-9818</p>
+          <p><strong>社長</strong> 村山正弘</p>
+        </div>
+        <div class="contact-card">
+          <h3>台北業務擔當窗口</h3>
+          <p><strong>地址</strong><br>台北市中山區長春路78號3樓之5</p>
+          <p><strong>台灣專線</strong> 02-2541-1115</p>
+          <p><strong>台灣傳真</strong> 02-2542-6110</p>
+          <p><strong>信箱</strong> risingsun.ginga@gmail.com</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="tourModal">
+    <div class="dialog">
+      <div class="dialog-head">
+        <div class="dialog-title">
+          <h2 id="modalTitle">東北紅葉秘境五日</h2>
+          <p id="modalSubtitle">奧入瀨溪流、十和田湖、藏王溫泉</p>
+        </div>
+        <div class="dialog-tools">
+          <button class="btn light" type="button" onclick="shareCurrentTour()">複製連結</button>
+          <button class="btn light" type="button" onclick="printCurrentTour()">列印 PDF</button>
+          <button class="btn light" type="button" onclick="closeTour()">關閉</button>
+        </div>
+      </div>
+      <div class="dialog-body">
+        <div class="hero-photo" id="modalPhoto"></div>
+        <div class="info-grid" id="modalInfo" style="padding:0; grid-template-columns:repeat(4,1fr)"></div>
+        <div class="day-list" id="modalDays"></div>
+        <section class="notice" id="modalNotice"></section>
+        <form class="form">
+          <label>姓名<input type="text"></label>
+          <label>Email<input type="email"></label>
+          <label>聯絡電話<input type="tel"></label>
+          <label>預計人數<input type="text"></label>
+          <label>出發日期<input type="date"></label>
+          <label>偏好聯絡方式<select><option>LINE</option><option>WhatsApp</option><option>Email</option></select></label>
+          <label class="full">詢問內容<textarea rows="4"></textarea></label>
+          <button class="btn primary full" type="button">送出詢問</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="foot">
+      <div><strong>銀河國際日本地接社</strong><br>株式会社銀河インターナショナル</div>
+      <div>日本專線 03-6278-9817｜台灣專線 02-2541-1115｜risingsun.ginga@gmail.com</div>
+    </div>
+  </footer>
+
+  <script>
+    const tours = {
+      "tohoku-autumn": {
+        title: "東北紅葉秘境五日",
+        subtitle: "奧入瀨溪流、十和田湖、藏王溫泉",
+        hero: "https://images.unsplash.com/photo-1579015108687-0b1e90e807b4?auto=format&fit=crop&w=1600&q=80",
+        info: [
+          ["地區", "東北"],
+          ["天數", "5天4夜"],
+          ["出發日期", "可洽詢"],
+          ["價格", "每人 TWD 42,800 起"]
+        ],
+        days: [
+          {
+            title: "東京集合",
+            images: [
+              "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1554797589-7241bb691973?auto=format&fit=crop&w=900&q=80"
+            ],
+            detail: "抵達後專車接送，依班機安排東京市區或近郊。實際停留點會依抵達時間與交通狀況調整。",
+            meals: ["早餐：敬請自理", "午餐：依班機時間安排", "晚餐：方便逛街，敬請自理"],
+            lodging: "住宿：東京市區飯店"
+          },
+          {
+            title: "奧入瀨溪流・十和田湖",
+            images: [
+              "https://images.unsplash.com/photo-1579015108687-0b1e90e807b4?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80"
+            ],
+            detail: "安排紅葉步道、溪流景觀與湖畔住宿。可依季節狀況調整散策時間。",
+            meals: ["早餐：飯店內", "午餐：當地餐廳", "晚餐：飯店內"],
+            lodging: "住宿：十和田湖周邊飯店"
+          },
+          {
+            title: "藏王溫泉",
+            images: [
+              "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1480796927426-f609979314bd?auto=format&fit=crop&w=900&q=80"
+            ],
+            detail: "季節景觀、溫泉住宿與在地餐食。冬季或山區路線需依道路狀況安排。",
+            meals: ["早餐：飯店內", "午餐：途中安排", "晚餐：飯店內"],
+            lodging: "住宿：藏王溫泉飯店"
+          },
+          {
+            title: "銀山溫泉・山形散策",
+            images: [],
+            detail: "安排溫泉街散策與山形周邊景點，實際路線依住宿位置與當日交通調整。",
+            meals: ["早餐：飯店內", "午餐：當地餐廳", "晚餐：依行程安排"],
+            lodging: "住宿：山形或仙台周邊飯店"
+          },
+          {
+            title: "東京或機場送機",
+            images: [],
+            detail: "依回程班機時間安排市區停留或機場送機。",
+            meals: ["早餐：飯店內", "午餐：依班機時間安排", "晚餐：敬請自理"],
+            lodging: "住宿：溫暖的家"
+          }
+        ]
+      },
+      "zao-snow": {
+        title: "藏王樹冰與銀山溫泉四日",
+        subtitle: "冬季限定雪景路線，專車移動減少轉乘壓力",
+        hero: "https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=1600&q=80",
+        info: [
+          ["地區", "東北"],
+          ["天數", "4天3夜"],
+          ["出發日期", "可洽詢"],
+          ["價格", "每人 TWD 36,500 起"]
+        ],
+        days: [
+          {
+            title: "仙台或東京集合",
+            images: ["https://images.unsplash.com/photo-1480796927426-f609979314bd?auto=format&fit=crop&w=900&q=80"],
+            detail: "依航班或集合地點安排專車接送，前往東北雪景路線。",
+            meals: ["早餐：敬請自理", "午餐：依時間安排", "晚餐：飯店內"],
+            lodging: "住宿：藏王溫泉周邊飯店"
+          },
+          {
+            title: "藏王樹冰觀賞",
+            images: ["https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=900&q=80"],
+            detail: "安排藏王纜車與樹冰觀賞。纜車運行與能見度會受天候影響。",
+            meals: ["早餐：飯店內", "午餐：景區周邊", "晚餐：飯店內"],
+            lodging: "住宿：藏王溫泉周邊飯店"
+          },
+          {
+            title: "銀山溫泉散策",
+            images: ["https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=900&q=80"],
+            detail: "前往銀山溫泉街散策，感受冬季溫泉街氛圍。",
+            meals: ["早餐：飯店內", "午餐：當地餐廳", "晚餐：依行程安排"],
+            lodging: "住宿：仙台或山形周邊飯店"
+          },
+          {
+            title: "機場送機",
+            images: [],
+            detail: "依班機時間安排送機，若時間許可可加排市區短暫停留。",
+            meals: ["早餐：飯店內", "午餐：依班機時間安排", "晚餐：敬請自理"],
+            lodging: "住宿：溫暖的家"
+          }
+        ]
+      },
+      "tokyo-mini": {
+        title: "東京近郊包車一日遊",
+        subtitle: "富士山、日光、鎌倉、輕井澤等方向可依需求安排",
+        hero: "https://images.unsplash.com/photo-1554797589-7241bb691973?auto=format&fit=crop&w=1600&q=80",
+        info: [
+          ["地區", "東京・關東近郊"],
+          ["天數", "1日"],
+          ["出發日期", "可洽詢"],
+          ["價格", "一車 JPY 68,000 起"]
+        ],
+        days: [
+          {
+            title: "東京近郊包車一日遊",
+            images: [
+              "https://images.unsplash.com/photo-1554797589-7241bb691973?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?auto=format&fit=crop&w=900&q=80"
+            ],
+            detail: "可安排富士山、日光、鎌倉、輕井澤等方向，實際路線會依出發地、季節、交通與停留時間調整。",
+            meals: ["早餐：敬請自理", "午餐：依路線安排", "晚餐：敬請自理"],
+            lodging: "住宿：無住宿安排"
+          }
+        ]
+      }
+    };
+    const defaultNotice = [
+      "注意事項",
+      "・冬季景點會受天候、道路、纜車運行狀況影響；正式內容以實際確認後安排為準。",
+      "・行程內容、順序、餐食、住宿與景點安排，會依出發日期、訂位狀況與當地實際情況調整。",
+      "・如遇天候不佳、交通管制或其他不可抗力因素，將以安全與行程順暢為優先調整。",
+      "・若有素食、食物過敏、行動不便、嬰幼兒同行或其他特殊需求，請於詢問時先告知。",
+      "・行程報價會依出發日、住宿、車輛、人數與匯率等條件調整，實際內容與費用以最終確認為準。"
+    ].join("\n");
+    let currentTourId = "";
+
+    function openTour(tourId = "tohoku-autumn") {
+      const tour = tours[tourId] || tours["tohoku-autumn"];
+      currentTourId = tours[tourId] ? tourId : "tohoku-autumn";
+      document.getElementById("modalTitle").textContent = tour.title;
+      document.getElementById("modalSubtitle").textContent = tour.subtitle;
+      document.getElementById("modalPhoto").style.cssText = imageStyle(tour.hero);
+      document.getElementById("modalPhoto").innerHTML = printImageHtml(tour.hero, tour.title);
+      document.getElementById("modalInfo").innerHTML = tour.info.map(([label, value]) => `
+        <div class="info-item"><strong>${escapeText(label)}</strong><span>${escapeText(value)}</span></div>
+      `).join("");
+      document.getElementById("modalDays").innerHTML = tour.days.map((day, index) => renderDay(day, index)).join("");
+      document.getElementById("modalNotice").innerHTML = renderNotice(defaultNotice);
+      document.getElementById("tourModal").classList.add("open");
+      document.getElementById("tourModal").scrollTop = 0;
+      const dialog = document.querySelector(".dialog");
+      if (dialog) dialog.scrollTop = 0;
+    }
+
+    function closeTour() {
+      document.getElementById("tourModal").classList.remove("open");
+    }
+
+    async function shareCurrentTour() {
+      if (!currentTourId) return;
+      const url = `${location.origin}${location.pathname}?tour=${encodeURIComponent(currentTourId)}`;
+      try {
+        await navigator.clipboard.writeText(url);
+        alert("行程連結已複製。");
+      } catch (error) {
+        prompt("請複製這個行程連結：", url);
+      }
+    }
+
+    function printCurrentTour() {
+      window.print();
+    }
+
+    function renderDay(day, index) {
+      const images = (day.images || []).filter(Boolean).slice(0, 3);
+      return `
+        <article class="day">
+          <div class="day-head">
+            <span class="day-number">DAY ${index + 1}</span>
+            <h3 class="day-title">${escapeText(day.title)}</h3>
+          </div>
+          ${images.length ? `<div class="day-collage">
+            ${images.map((image) => `<div class="day-photo" style="${imageStyle(image)}">${printImageHtml(image, day.title)}</div>`).join("")}
+          </div>` : ""}
+          <div class="day-body">
+            <div class="meal-grid">
+              ${(day.meals || []).map((meal) => `<div class="meal-chip">${escapeText(meal)}</div>`).join("")}
+              <div class="meal-chip lodging">${escapeText(day.lodging || "住宿：依行程安排")}</div>
+            </div>
+            <div class="day-detail">${escapeText(day.detail)}</div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderNotice(text) {
+      const lines = String(text || "").split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+      if (!lines.length) return "";
+      const [title, ...items] = lines;
+      return `<h3>${escapeText(title)}</h3>${items.map((line) => escapeText(line)).join("\n")}`;
+    }
+
+    function imageStyle(url) {
+      if (!url) return "";
+      return `background-image:url('${String(url).replaceAll("'", "\\'")}')`;
+    }
+
+    function printImageHtml(url, alt = "") {
+      if (!url) return "";
+      return `<img class="print-image" src="${escapeAttr(url)}" alt="${escapeAttr(alt || "行程圖片")}">`;
+    }
+
+    function escapeText(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    }
+
+    function escapeAttr(value) {
+      return escapeText(value).replaceAll('"', "&quot;");
+    }
+
+    const sharedTourId = new URLSearchParams(location.search).get("tour");
+    if (sharedTourId && tours[sharedTourId]) {
+      openTour(sharedTourId);
+    }
+  </script>
+</body>
+</html>
+
