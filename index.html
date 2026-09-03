@@ -219,13 +219,20 @@
     }
     .day-head {
       display: flex;
-      align-items: baseline;
-      gap: 10px;
+      align-items: flex-start;
+      gap: 12px;
       padding: 14px 16px 10px;
       border-bottom: 1px solid var(--line);
     }
-    .day-number { color: var(--gold); font-weight: 950; }
-    .day-title { margin: 0; color: var(--navy); font-size: 18px; line-height: 1.45; }
+    .day-number {
+      flex: 0 0 auto;
+      min-width: 54px;
+      color: var(--gold);
+      font-weight: 950;
+      white-space: nowrap;
+      line-height: 1.45;
+    }
+    .day-title { flex: 1 1 auto; min-width: 0; margin: 0; color: var(--navy); font-size: 18px; line-height: 1.45; overflow-wrap: anywhere; }
     .day-collage { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 16px 0; }
     .day-photo { aspect-ratio: 4 / 3; border-radius: 8px; background-size: cover; background-position: center; border: 1px solid var(--line); overflow: hidden; }
     .day-body { padding: 12px 16px 16px; display: grid; gap: 10px; }
@@ -394,8 +401,8 @@
     </section>
   </main>
 
-  <div class="modal" id="tourModal">
-    <div class="dialog">
+  <div class="modal" id="tourModal" onclick="closeTour()">
+    <div class="dialog" onclick="event.stopPropagation()">
       <div class="dialog-head">
         <div class="dialog-title">
           <h2 id="modalTitle">東北紅葉秘境五日</h2>
