@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>銀河國際日本地接社｜東京＆東北包車旅遊</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       --navy: #172452;
@@ -433,6 +434,9 @@
   </footer>
 
   <script>
+    const supabaseUrl = "https://lfgjxozamhydannrinep.supabase.co";
+    const supabaseKey = "sb_publishable_hY6PUKompn2QHkC3nzGDXA_DUkRj8b_";
+    const client = supabase.createClient(supabaseUrl, supabaseKey);
     const tours = {};
     const defaultNotice = [
       "注意事項",
@@ -443,6 +447,100 @@
       "・行程報價會依出發日、住宿、車輛、人數與匯率等條件調整，實際內容與費用以最終確認為準。"
     ].join("\n");
     let currentTourId = "";
+
+    async function loadPublishedTours() {
+      const grid = document.getElementById("tourGrid");
+      grid.innerHTML = `<div class="empty-state"><strong>讀取行程中</strong><span>正在同步已上架的銀河行程。</span></div>`;
+      const { data, error } = await client
+        .from("site_tours")
+        .select("*")
+        .eq("is_published", true)
+        .order("sort_order", { ascending: true })
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error(error);
+        grid.innerHTML = `<div class="empty-state"><strong>行程讀取失敗</strong><span>請稍後再試，或通知管理員確認資料庫設定。</span></div>`;
+        return;
+      }
+
+      Object.keys(tours).forEach((key) => delete tours[key]);
+      (data || []).forEach((row) => {
+        const tour = normalizeTour(row);
+        tours[tour.id] = tour;
+      });
+
+      renderTourCards(Object.values(tours));
+
+      const sharedTourId = new URLSearchParams(location.search).get("tour");
+      if (sharedTourId && tours[sharedTourId]) {
+        openTour(sharedTourId);
+      }
+    }
+
+    function normalizeTour(row) {
+      const payload = row.payload || {};
+      const days = (payload.days || []).map((day) => normalizeDay(day));
+      return {
+        id: row.id,
+        title: payload.title || row.title || "未命名行程",
+        subtitle: payload.subtitle || row.subtitle || "",
+        hero: payload.image || row.hero_image || "",
+        info: [
+          ["地區", payload.region || "東北"],
+          ["天數", days.length ? `${days.length}天` : ""],
+          ["出發日期", payload.departureDate || findInfoValue(payload.info, "出發日期") || "可洽詢"],
+          ["價格", payload.price || row.price || "請洽詢"]
+        ].filter(([, value]) => value),
+        price: payload.price || row.price || "請洽詢",
+        days,
+        notice: payload.notice || defaultNotice
+      };
+    }
+
+    function normalizeDay(day) {
+      if (Array.isArray(day)) {
+        const body = day[1] || "";
+        return {
+          title: (day[0] || "").replace(/^Day\s*\d+\s*/i, "") || "未填行程標題",
+          detail: extractDetail(body),
+          meals: extractMeals(body),
+          lodging: extractLodging(body),
+          images: (day[2] || []).filter(Boolean)
+        };
+      }
+      return {
+        title: day?.title || "未填行程標題",
+        detail: day?.detail || day?.description || "",
+        meals: day?.meals || [],
+        lodging: day?.lodging || "住宿：依行程安排",
+        images: day?.images || []
+      };
+    }
+
+    function renderTourCards(list) {
+      const grid = document.getElementById("tourGrid");
+      if (!list.length) {
+        grid.innerHTML = `<div class="empty-state"><strong>目前尚無上架行程</strong><span>行程確認後會由後台上架，並自動顯示在這裡。</span></div>`;
+        return;
+      }
+      grid.innerHTML = list.map((tour) => `
+        <article class="card">
+          ${tour.hero ? `<div class="tour-photo" style="${imageStyle(tour.hero)}"></div>` : `<div class="tour-photo"></div>`}
+          <div class="card-body">
+            <div class="tags">
+              ${tour.info.slice(0, 3).map(([label, value]) => `<span class="tag">${escapeText(value || label)}</span>`).join("")}
+            </div>
+            <h3>${escapeText(tour.title)}</h3>
+            <p>${escapeText(tour.subtitle || "詳細行程請點選查看。")}</p>
+            <div class="price-row">
+              <span class="price">${escapeText(tour.price)}</span>
+              <button class="btn primary" type="button" onclick="openTour('${escapeAttr(tour.id)}')">看行程</button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
 
     function openTour(tourId) {
       const tour = tours[tourId];
@@ -456,7 +554,7 @@
         <div class="info-item"><strong>${escapeText(label)}</strong><span>${escapeText(value)}</span></div>
       `).join("");
       document.getElementById("modalDays").innerHTML = tour.days.map((day, index) => renderDay(day, index)).join("");
-      document.getElementById("modalNotice").innerHTML = renderNotice(defaultNotice);
+      document.getElementById("modalNotice").innerHTML = renderNotice(tour.notice || defaultNotice);
       document.getElementById("tourModal").classList.add("open");
       document.getElementById("tourModal").scrollTop = 0;
       const dialog = document.querySelector(".dialog");
@@ -511,6 +609,32 @@
       return `<h3>${escapeText(title)}</h3>${items.map((line) => escapeText(line)).join("\n")}`;
     }
 
+    function findInfoValue(info, label) {
+      const row = (info || []).find((item) => Array.isArray(item) && item[0] === label);
+      return row ? row[1] : "";
+    }
+
+    function extractDetail(body) {
+      const text = String(body || "");
+      const start = text.search(/\n?(早餐|午餐|晚餐|住宿)：/);
+      return start >= 0 ? text.slice(0, start).trim() : text.trim();
+    }
+
+    function extractMeals(body) {
+      return String(body || "")
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter((line) => /^(早餐|午餐|晚餐)：/.test(line));
+    }
+
+    function extractLodging(body) {
+      const lodging = String(body || "")
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .find((line) => /^住宿：/.test(line));
+      return lodging || "住宿：依行程安排";
+    }
+
     function imageStyle(url) {
       if (!url) return "";
       return `background-image:url('${String(url).replaceAll("'", "\\'")}')`;
@@ -532,10 +656,7 @@
       return escapeText(value).replaceAll('"', "&quot;");
     }
 
-    const sharedTourId = new URLSearchParams(location.search).get("tour");
-    if (sharedTourId && tours[sharedTourId]) {
-      openTour(sharedTourId);
-    }
+    loadPublishedTours();
   </script>
 </body>
 </html>
